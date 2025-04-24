@@ -1,3 +1,5 @@
+import os
+import requests
 def download_answer_files(cloud_url: str, path_to_data_folder: str, respondent_index: int):
     if not os.path.exists(path_to_data_folder):
         os.makedirs(path_to_data_folder)
