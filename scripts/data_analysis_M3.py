@@ -1,8 +1,24 @@
 import requests
 import matplotlib.pyplot as plt
+""""
+def extract_answers_sequence(file_path):
 
-def generate_means_sequence(string_collated_answers_path):
-    lines = string_collated_answers_path.splitlines()
+    answers = []
+    with open(file_path, "r") as file:
+        lines = [line.strip() for line in file.readlines() if line.strip() != ""]
+
+    for i in range(0, len(lines), 5):
+        question_block = lines[i:i+5]
+        selected = 0
+        for j in range(1, 5):
+            if "[x]" in question_block[j]:
+                selected = j
+        answers.append(selected)
+
+    return answers
+"""
+def generate_means_sequence(collated_answers_path):
+    lines = collated_answers_path.splitlines()
 
     num_questions = 100
     question_answer_groups = [[] for _ in range(num_questions)]
@@ -33,15 +49,15 @@ def generate_means_sequence(string_collated_answers_path):
 url = "https://raw.githubusercontent.com/tdvl3720-uol/Group-Project---Alan-Turing/refs/heads/main/output/collated_answers.txt"
 response = requests.get(url)
 if response.status_code ==200:
-    string_collated_answers_path = response.text
+    collated_answers_path = response.text
 
-mean_answer_value = generate_means_sequence(string_collated_answers_path)
+mean_answer_value = generate_means_sequence(collated_answers_path)
 
 print(f"Mean answer values = {mean_answer_value}")                
 
 
 
-def visualize_data(string_collated_answers_path, n):
+def visualize_data(collated_answers_path, n):
   
     if n==1:
         x = list(range(1, 101))
