@@ -1,6 +1,6 @@
 import requests
 import matplotlib.pyplot as plt
-""""
+
 def extract_answers_sequence(file_path):
 
     answers = []
@@ -16,7 +16,7 @@ def extract_answers_sequence(file_path):
         answers.append(selected)
 
     return answers
-"""
+
 def generate_means_sequence(collated_answers_path):
     lines = collated_answers_path.splitlines()
 
@@ -52,7 +52,7 @@ if response.status_code ==200:
     collated_answers_path = response.text
 
 mean_answer_value = generate_means_sequence(collated_answers_path)
-
+#extract_answers_sequence(collated_answers_path)
 print(f"Mean answer values = {mean_answer_value}")                
 
 
