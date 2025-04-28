@@ -1,7 +1,8 @@
 import requests
 import matplotlib.pyplot as plt
+import numpy as np
 
-def extract_answers_sequence(file_path): #from data_extraction_M3.py
+def extract_answers_sequence(file_path):
 
     answers = []
     with open(file_path, "r") as file:
@@ -16,10 +17,24 @@ def extract_answers_sequence(file_path): #from data_extraction_M3.py
         answers.append(selected)
 
     return answers
+answers = extract_answers_sequence("output/collated_answers.txt")
+print(len(answers))
+
 
 
 
 def generate_means_sequence(collated_answers_path):
+    answers = extract_answers_sequence("output/collated_answers.txt")
+    means = []
+    for i in range(100):
+        filtered_answers = [ans for ans in answers if ans!=0]
+        mean = np.mean(filtered_answers)
+        means.append(mean)
+    return means
+collated_answers_path = "output/collated_answers.txt"
+means = generate_means_sequence(collated_answers_path)
+#print(means)
+"""
     lines = collated_answers_path.splitlines()
 
     num_questions = 100
@@ -53,8 +68,8 @@ response = requests.get(url)
 if response.status_code ==200:
     collated_answers_path = response.text
 
-#print(f"Mean answer values = {mean_answer_value}")                
-
+print(f"Mean answer values = {mean_answer_value}")                
+"""
 
 
 def visualize_data(collated_answers_path, n):
@@ -94,4 +109,4 @@ def visualize_data(collated_answers_path, n):
             plt.plot(range(1,101), answers, label = f'Respondent{i+1}')
 
     else:
-        print("error: n=!1, n=!2")
+        print("error: n!=1, n!=2")
