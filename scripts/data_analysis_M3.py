@@ -76,7 +76,7 @@ def visualize_data(collated_answers_path, n):
   
     if n==1:
         x = list(range(1, 101))
-        y = mean_answer_value
+        y = means
         plt.scatter(x, y, s=15, marker = '.')
     elif n==2:
         base_url = "https://raw.githubusercontent.com/tdvl3720-uol/Group-Project---Alan-Turing/main/data/"
