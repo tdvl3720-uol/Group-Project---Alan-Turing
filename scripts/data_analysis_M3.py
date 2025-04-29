@@ -51,6 +51,10 @@ def visualize_data(collated_answers_path, n):
         x = list(range(1, 101))
         y = means
         plt.scatter(x, y, s=15, marker = '.')
+        plt.xlabel("Question number")
+        plt.ylabel("Mean value")
+        plt.title("Means sequence")
+
     elif n==2:
         base_url = "https://raw.githubusercontent.com/tdvl3720-uol/Group-Project---Alan-Turing/main/data/"
         file_names = [f"answers_respondent_{i}.txt" for i in range(1, 26)]
@@ -63,23 +67,28 @@ def visualize_data(collated_answers_path, n):
                 lines = response.text.splitlines()
                 answers = []
                 
-                for i in range(100):  # There are 100 questions
-                    question_answers = lines[i * 4: (i + 1) * 4]  # Get the 4 lines for each question
+                for i in range(100):  
+                    question_answers = lines[i * 4: (i + 1) * 4]  
                     answer = 0
                     
                     for option in question_answers:
                         if "[x]" in option:
-                            answer = 1  # Mark the selected option as 1
+                            answer = 1  
                             break
                             
                     answers.append(answer)
-            respondent_answers.append(answers)  
-        else:
-            print(f"Failed to load {file_name}")
+                respondent_answers.append(answers)  
+            else:
+                print(f"Failed to load {file_name}")
 
         plt.figure(figsize=(10, 6))
         for i, answers in enumerate(respondent_answers):
-            plt.plot(range(1,101), answers, label = f'Respondent{i+1}')
+            plt.plot(range(1,101), answers, label = f'Respondent_{i+1}')
+            plt.xlabel("Question numbers")
+            plt.ylabel("Answered(1) / Not Answered(0)")
+            plt.title("Individual Answers")
+            plt.legend(loc='center left', bbox_to_anchor=(1, 0.5), title="Respondents")
+            plt.xticks(np.arange(0, 101, 10))
 
     else:
         print("error: n!=1, n!=2")
