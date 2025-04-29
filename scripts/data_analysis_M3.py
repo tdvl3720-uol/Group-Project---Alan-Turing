@@ -18,59 +18,32 @@ def extract_answers_sequence(file_path):
 
     return answers
 answers = extract_answers_sequence("output/collated_answers.txt")
-print(len(answers))
-
 
 
 
 def generate_means_sequence(collated_answers_path):
+
     answers = extract_answers_sequence("output/collated_answers.txt")
     means = []
-    for i in range(100):
-        filtered_answers = [ans for ans in answers if ans!=0]
-        mean = np.mean(filtered_answers)
+    num_questions = 100
+    num_respondents = len(answers)//num_questions
+    for i in range(num_questions):
+        total = 0
+        count = 0
+
+        for j in range(num_respondents):
+            index = j * num_questions + i
+            value = answers[index]
+            if value != 0:
+                total += value
+                count += 1
+        mean = total / count if count > 0 else 0
         means.append(mean)
     return means
+
 collated_answers_path = "output/collated_answers.txt"
-means = generate_means_sequence(collated_answers_path)
-#print(means)
-"""
-    lines = collated_answers_path.splitlines()
-
-    num_questions = 100
-    question_answer_groups = [[] for _ in range(num_questions)]
-
-    current_question_index = -1
-    question_counter = 0
-
-    
-    for line in lines:
-        line = line.strip()
-        
-        if line.startswith("Question"):
-            current_question_index = question_counter % num_questions
-            question_counter += 1
-        
-        elif line.startswith("["):
-            if "[x]" in line:
-                question_answer_groups[current_question_index].append(1)
-            else:
-                question_answer_groups[current_question_index].append(0)
-
-    
-    question_means = [sum(answers) / len(answers) if answers else 0 for answers in question_answer_groups]
-
-    return question_means
-
-
-url = "https://raw.githubusercontent.com/tdvl3720-uol/Group-Project---Alan-Turing/refs/heads/main/output/collated_answers.txt"
-response = requests.get(url)
-if response.status_code ==200:
-    collated_answers_path = response.text
-
-print(f"Mean answer values = {mean_answer_value}")                
-"""
-
+means = (generate_means_sequence(collated_answers_path))
+print(means)
 
 def visualize_data(collated_answers_path, n):
   
