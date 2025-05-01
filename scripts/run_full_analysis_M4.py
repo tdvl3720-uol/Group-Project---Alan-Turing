@@ -2,8 +2,6 @@ import requests
 from pathlib import Path
 import os 
 
-
-
 def download_answer_files(cloud_url:str, path_to_data_folder: str, respondent_index:int):
     data_folder= Path(path_to_data_folder)
 
@@ -27,11 +25,6 @@ download_answer_files(
     cloud_url="https://github.com/tdvl3720-uol/Group-Project---Alan-Turing/raw/main/data",
     path_to_data_folder="data",
     respondent_index=25)
-
-    
-import os
-
-
 
 def collate_answer_files(data_folder_path):
     output_folder = "output"
@@ -68,8 +61,6 @@ def extract_answers_sequence(file_path):
 
     return answers
 
-
-
 def write_answers_sequence(answers, respondent_id):
     file_name = f"answers_list_respondent_{respondent_id}.txt"
     with open(file_name, "w") as file:
@@ -94,8 +85,6 @@ def extract_answers_sequence(file_path):
 
     return answers
 answers = extract_answers_sequence("output/collated_answers.txt")
-
-
 
 def generate_means_sequence(collated_answers_path):
 
