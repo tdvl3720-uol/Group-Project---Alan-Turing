@@ -3,12 +3,7 @@ from pathlib import Path
 import os 
 
 def download_answer_files(cloud_url:str, path_to_data_folder: str, respondent_index:int):
-    data_folder= Path(path_to_data_folder)
-
-    if not data_folder.exists():
-        data_folder.mkdir(parents=True, exist_ok=True)
-
-    for i in range(1, respondent_index+1):
+   for i in range(1, respondent_index+1):
         file_name= f"answers_respondent_{i}.txt"
         file_url=f"{cloud_url}/{file_name}?raw=true"
         local_name = os.path.join(path_to_data_folder, file_name)
@@ -24,16 +19,11 @@ def download_answer_files(cloud_url:str, path_to_data_folder: str, respondent_in
 download_answer_files(
     cloud_url="https://github.com/tdvl3720-uol/Group-Project---Alan-Turing/raw/main/data",
     path_to_data_folder="data",
-    respondent_index=40)
+    respondent_index=25)
 
 
 def collate_answer_files(data_folder_path):
-    output_folder = "output"
-    output_file_path = os.path.join(output_folder, "collated_answers.txt")
-    
-    
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)
+    output_file_path="output/collated_answers.txt"
     
     files = sorted(os.listdir(data_folder_path))
     
