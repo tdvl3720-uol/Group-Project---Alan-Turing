@@ -26,10 +26,6 @@ download_answer_files(
     path_to_data_folder="data",
     respondent_index=40)
 
-    
-import os
-
-
 
 def collate_answer_files(data_folder_path):
     output_folder = "output"
