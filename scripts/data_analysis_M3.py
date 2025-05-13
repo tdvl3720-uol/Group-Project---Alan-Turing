@@ -6,20 +6,23 @@ def extract_answers_sequence(file_path):
 
     answers = []
     with open(file_path, "r") as file:
-        lines = [line.strip() for line in file.readlines() if line.strip() != ""]
+        lines = file.readlines()
 
-    for i in range(0, len(lines), 5):
-        question_block = lines[i:i+5]
-        selected = 0
-        for j in range(1, 5):
-            if "[x]" in question_block[j]:
-                selected = j
-        answers.append(selected)
+    clean_lines = []
+    for line in lines:
+        line = line.strip()
+        if line != "":
+            clean_lines.append(line)
+
+    for i in range(0, len(clean_lines), 5):
+        question_block = clean_lines[i:i+5]
+        chosen_answer = 0
+        for option in range(1, 5):
+            if "[x]" in question_block[option]:
+                chosen_answer = option
+        answers.append(chosen_answer)
 
     return answers
-answers = extract_answers_sequence("output/collated_answers.txt")
-
-
 
 def generate_means_sequence(collated_answers_path):
 
