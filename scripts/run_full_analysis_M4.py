@@ -1,6 +1,8 @@
 import requests
 from pathlib import Path
 import os 
+import matplotlib.pyplot as plt
+import numpy as np
 
 def download_answer_files(cloud_url:str, path_to_data_folder: str, respondent_index:int):
     data_folder= Path(path_to_data_folder)
@@ -60,31 +62,6 @@ def extract_answers_sequence(file_path):
         answers.append(selected)
 
     return answers
-
-def write_answers_sequence(answers, respondent_id):
-    file_name = f"answers_list_respondent_{respondent_id}.txt"
-    with open(file_name, "w") as file:
-        file.write(", ".join(map(str, answers)))
-
-import matplotlib.pyplot as plt
-import numpy as np
-
-def extract_answers_sequence(file_path):
-
-    answers = []
-    with open(file_path, "r") as file:
-        lines = [line.strip() for line in file.readlines() if line.strip() != ""]
-
-    for i in range(0, len(lines), 5):
-        question_block = lines[i:i+5]
-        selected = 0
-        for j in range(1, 5):
-            if "[x]" in question_block[j]:
-                selected = j
-        answers.append(selected)
-
-    return answers
-answers = extract_answers_sequence("output/collated_answers.txt")
 
 def generate_means_sequence(collated_answers_path):
 
