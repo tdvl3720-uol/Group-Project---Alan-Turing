@@ -1,7 +1,8 @@
 def extract_answers_sequence(file_path):
     """
-    Parses the respondent’s answers into a structured sequence.
-
+    Extracts a list of 100 answers from the given quiz answer file, 
+    and parses the respondent’s answers into a structured sequence.
+    
     Input: path (str) to a quiz answers text file.
 
     Output: List of 100 integers, where each number is 1, 2, 3, 4 (corresponding to the
@@ -11,14 +12,25 @@ def extract_answers_sequence(file_path):
 
     answers = []
     with open(file_path, "r") as file:
-        lines = [line.strip() for line in file.readlines() if line.strip() != ""] # Removing empty lines
-    for i in range(0, len(lines), 5):
-        question_block = lines[i:i+5]
-        selected = 0
-        for j in range(1, 5):
-            if "[x]" in question_block[j]:
-                selected = j
-        answers.append(selected)
+        lines = file.readlines()
+
+#Removing empty lines from the file
+
+    clean_lines = []
+    for line in lines:
+        line = line.strip()
+        if line != "":
+            clean_lines.append(line)
+
+#Adding the chosen answer to the answer List. 1 question is 5 lines  
+
+    for i in range(0, len(clean_lines), 5):
+        question_block = clean_lines[i:i+5]
+        chosen_answer = 0
+        for option in range(1, 5):
+            if "[x]" in question_block[option]:
+                chosen_answer = option
+        answers.append(chosen_answer)
 
     return answers
 
