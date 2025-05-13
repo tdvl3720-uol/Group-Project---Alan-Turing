@@ -24,9 +24,10 @@ def extract_answers_sequence(file_path):
 
     return answers
 
+
 def generate_means_sequence(collated_answers_path):
 
-    answers = extract_answers_sequence("output/collated_answers.txt")
+    answers = extract_answers_sequence(collated_answers_path)
     means = []
     num_questions = 100
     num_respondents = len(answers)//num_questions
