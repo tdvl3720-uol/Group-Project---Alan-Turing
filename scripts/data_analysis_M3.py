@@ -31,13 +31,13 @@ def generate_means_sequence(collated_answers_path):
     num_questions = 100
     num_respondents = len(answers)//num_questions
     for i in range(num_questions):
-        total = 0
+        total = 0 
         count = 0
 
         for j in range(num_respondents):
             index = j * num_questions + i
             value = answers[index]
-            if value != 0:
+            if value != 0: # to ignore missing answers marked as '0'
                 total += value
                 count += 1
         mean = total / count if count > 0 else 0
@@ -64,14 +64,14 @@ def visualize_data(collated_answers_path, n):
         respondent_answers = []
 
         for file_name in file_names:
-            url = base_url + file_name
+            url = base_url + file_name  # builds the url to fetch each file
             response = requests.get(url)
             if response.status_code == 200:
                 lines = response.text.splitlines()
                 answers = []
                 
                 for i in range(100):  
-                    question_answers = lines[i * 4: (i + 1) * 4]  
+                    question_answers = lines[i * 4: (i + 1) * 4]  # slices 4 lines for the answer options for each question
                     answer = 0
                     
                     for option in question_answers:
