@@ -38,36 +38,42 @@ def collate_answer_files(data_folder_path):
                 outfile.write("\n*\n")  
     print(f"Collated answers saved to {output_file_path}")
 
-
 def extract_answers_sequence(file_path):
+
     answers = []
     with open(file_path, "r") as file:
-        lines = [line.strip() for line in file.readlines() if line.strip() != ""]
+        lines = file.readlines()
 
-    for i in range(0, len(lines), 5):
-        question_block = lines[i:i+5]
-        selected = 0
-        for j in range(1, 5):
-            if "[x]" in question_block[j]:
-                selected = j
-        answers.append(selected)
+    clean_lines = []
+    for line in lines:
+        line = line.strip()
+        if line != "":
+            clean_lines.append(line)
+
+    for i in range(0, len(clean_lines), 5):
+        question_block = clean_lines[i:i+5]
+        chosen_answer = 0
+        for option in range(1, 5):
+            if "[x]" in question_block[option]:
+                chosen_answer = option
+        answers.append(chosen_answer)
 
     return answers
 
 def generate_means_sequence(collated_answers_path):
 
-    answers = extract_answers_sequence("output/collated_answers.txt")
+    answers = extract_answers_sequence(collated_answers_path)
     means = []
     num_questions = 100
     num_respondents = len(answers)//num_questions
     for i in range(num_questions):
-        total = 0
+        total = 0 
         count = 0
 
         for j in range(num_respondents):
             index = j * num_questions + i
             value = answers[index]
-            if value != 0:
+            if value != 0: # to ignore missing answers marked as '0'
                 total += value
                 count += 1
         mean = total / count if count > 0 else 0
@@ -79,8 +85,6 @@ means = (generate_means_sequence(collated_answers_path))
 print(means)
 
 def visualize_data(collated_answers_path, n):
-
-    plt.close("all")
   
     if n==1:
         x = list(range(1, 101))
@@ -89,7 +93,6 @@ def visualize_data(collated_answers_path, n):
         plt.xlabel("Question number")
         plt.ylabel("Mean value")
         plt.title("Means sequence")
-        plt.show()
 
     elif n==2:
         base_url = "https://raw.githubusercontent.com/tdvl3720-uol/Group-Project---Alan-Turing/main/data/"
@@ -97,14 +100,14 @@ def visualize_data(collated_answers_path, n):
         respondent_answers = []
 
         for file_name in file_names:
-            url = base_url + file_name
+            url = base_url + file_name  # builds the url to fetch each file
             response = requests.get(url)
             if response.status_code == 200:
                 lines = response.text.splitlines()
                 answers = []
                 
                 for i in range(100):  
-                    question_answers = lines[i * 4: (i + 1) * 4]  
+                    question_answers = lines[i * 4: (i + 1) * 4]  # slices 4 lines for the answer options for each question
                     answer = 0
                     
                     for option in question_answers:
@@ -125,8 +128,6 @@ def visualize_data(collated_answers_path, n):
             plt.title("Individual Answers")
             plt.legend(loc='center left', bbox_to_anchor=(1, 0.5), title="Respondents")
             plt.xticks(np.arange(0, 101, 10))
-            plt.show()
-            
 
     else:
         print("error: n!=1, n!=2")
